@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    line-height: 1.5;
+  }
+}
+
+@layer components {
+  .active hr {
+    @apply block;
+  }
+
+  .active li {
+    @apply text-teal-800 font-bold;
+  }
+}
+
+@theme {
+
+  --color-hakeem-dark: #083344;
+}
+
+::-webkit-scrollbar {
+  @apply hidden
+}

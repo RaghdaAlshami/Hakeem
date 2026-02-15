@@ -1,0 +1,39 @@
+import express from "express";
+import {
+  doctorList,
+  loginDoctor,
+  appointmentsDoctor,
+  appointmentComplete,
+  appointmentCancel,
+  doctorDashboard,
+  doctorProfile,
+  updateDoctorProfile,
+  getUserProfile,
+} from "../controllers/doctorController.js";
+import authDoctor from "../middlewares/authDoctor.js";
+import upload from "../middlewares/multer.js"; // 1. تأكد من استيراد الملتر هنا
+
+
+const doctorRouter = express.Router();
+
+doctorRouter.get("/list", doctorList);
+doctorRouter.post("/login", loginDoctor);
+
+doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
+doctorRouter.post("/complete-appointment", authDoctor, appointmentComplete);
+doctorRouter.post("/cancel-appointment", authDoctor, appointmentCancel);
+doctorRouter.get("/dashboard", authDoctor, doctorDashboard);
+doctorRouter.get("/profile", authDoctor, doctorProfile);
+
+// 2. تعديل هذا السطر تحديداً لإضافة خاصية رفع الصور وتحليل الـ FormData
+doctorRouter.post(
+  "/update-profile",
+  upload.single("image"),
+  authDoctor,
+  updateDoctorProfile,
+);
+
+doctorRouter.post("/patient-profile", authDoctor, getUserProfile);
+
+
+export default doctorRouter;
