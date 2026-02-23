@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { assets, specialityTranslation } from "../assets/assets"; // أضفنا specialityTranslation
+import { assets } from "../assets/assets"; 
 import { toast } from "react-toastify";
 
 const AiAssistant = () => {
@@ -37,7 +37,7 @@ const AiAssistant = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 font-['Cairo']" dir="rtl">
-      {/* زر الأيقونة العائم */}
+      
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-hakeem-dark p-4 rounded-full shadow-2xl hover:scale-110 transition-all active:scale-95 animate-bounce"
@@ -49,10 +49,10 @@ const AiAssistant = () => {
         )}
       </button>
 
-      {/* نافذة المساعد الذكي */}
+      
       {isOpen && (
         <div className="absolute bottom-20 right-0 w-[350px] sm:w-[400px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
-          {/* رأس النافذة */}
+          
           <div className="bg-teal-700 p-4 text-white flex justify-between items-center">
             <div className="flex items-center gap-2">
               <img className="w-6 h-6" src={assets.chatbot_icon} alt="" />
@@ -65,7 +65,7 @@ const AiAssistant = () => {
             </button>
           </div>
 
-          {/* محتوى الدردشة */}
+         
           <div className="p-4 max-h-[70vh] overflow-y-auto bg-gray-50 text-right">
             {!result ? (
               <>
@@ -105,29 +105,21 @@ const AiAssistant = () => {
                 </div>
 
                 <div className="bg-gray-100 p-4 rounded-xl flex flex-col gap-3">
-                  <div className="text-center">
-                    <p className="text-[10px] text-gray-500 uppercase tracking-wider">
-                      التخصص المطلوب
-                    </p>
-                    <p className="text-lg font-bold text-teal-800">
-                      {/* عرض اسم التخصص بالعربي من القاموس */}
-                      {specialityTranslation[result.suggestedSpeciality] || result.suggestedSpeciality}
-                    </p>
-                  </div>
                   <button
                     onClick={() => {
                       navigate(`/doctors/${result.suggestedSpeciality}`);
                       setIsOpen(false);
                     }}
                     className="bg-teal-700 text-white py-2 rounded-lg text-xs font-bold hover:shadow-lg transition-all">
-                    عرض الأطباء المتاحين
+                    عرض الأطباء المناسبين لحالتك
                   </button>
                 </div>
               </div>
             )}
 
             <p className="text-[9px] text-gray-400 mt-4 text-center leading-tight">
-              ⚠️ تنبيه: تحليل ذكاء اصطناعي استرشادي فقط، لا يغني عن زيارة الطبيب.
+              ⚠️ تنبيه: تحليل ذكاء اصطناعي استرشادي فقط، لا يغني عن زيارة
+              الطبيب.
             </p>
           </div>
         </div>
