@@ -40,12 +40,12 @@ const DoctorDashboard = () => {
         return acc;
       }, [])
       .sort((a, b) => {
-        // الترتيب التصاعدي الطبيعي (14-2 قبل 15-2)
+       
         const dateA = new Date(a.date.split("_").reverse().join("-"));
         const dateB = new Date(b.date.split("_").reverse().join("-"));
         return dateA - dateB;
       })
-      .slice(-7) || []; // الآن سيأخذ آخر 7 أيام نشطة فعلياً من تاريخ العيادة
+      .slice(-7) || []; 
       
  
 
@@ -59,7 +59,7 @@ const DoctorDashboard = () => {
   return (
     dashData && (
       <div className="m-5" dir="rtl">
-        {/* قسم البطاقات الإحصائية */}
+      
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-3 bg-white p-5 min-w-48 flex-1 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
             <img className="w-10" src={assets.earning_icon} alt="" />
@@ -164,7 +164,6 @@ const DoctorDashboard = () => {
           </div>
         </div>
 
-        {/* قسم أحدث المواعيد */}
         <div className="bg-white mt-8 rounded-xl border border-gray-100 shadow-sm">
           <div className="flex items-center px-6 py-4 gap-2 bg-gray-50 border-b border-gray-100">
             <img className="w-5" src={assets.list_icon} alt="" />

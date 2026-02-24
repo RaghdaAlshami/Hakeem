@@ -4,7 +4,6 @@ import { AppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 
 const AllAppointments = () => {
-  // 1. تأكدي من استخراج cancelAppointment و getAllAppointments بشكل صحيح
   const { aToken, appointments, getAllAppointments, cancelAppointment } =
     useContext(AdminContext);
   const { slotDateFormat, currency } = useContext(AppContext);
@@ -22,7 +21,7 @@ const AllAppointments = () => {
       </p>
 
       <div className="bg-white border border-gray-300 rounded text-sm max-h-[80vh] min-h-[60vh] overflow-y-scroll no-scrollbar shadow-sm">
-        {/* رأس الجدول */}
+        
         <div className="hidden sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col py-3 px-6 border-b border-gray-300 bg-gray-50 text-gray-700 font-bold">
           <p>#</p>
           <p>المريض</p>
@@ -33,7 +32,6 @@ const AllAppointments = () => {
           <p>الإجراء</p>
         </div>
 
-        {/* محتوى الجدول */}
         {appointments.map((item, index) => (
           <div
             key={index}
@@ -81,7 +79,7 @@ const AllAppointments = () => {
                 <p className="text-green-500 text-xs font-medium">مكتمل</p>
               ) : (
                 <img
-                  onClick={() => cancelAppointment(item._id)} // أضفنا دالة الإلغاء هنا
+                  onClick={() => cancelAppointment(item._id)} 
                   className="w-10 cursor-pointer p-1 hover:bg-red-50 rounded-full transition-all"
                   src={assets.cancel_icon}
                   alt="إلغاء"

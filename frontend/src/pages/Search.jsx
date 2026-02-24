@@ -41,7 +41,6 @@ const Search = () => {
     <div
       dir="rtl"
       className="py-10 px-6 md:px-12 lg:px-24 font-cairo min-h-[70vh]">
-      {/* العنوان والإحصائيات */}
       <div className="mb-10 border-b  border-gray-200 pb-5">
         <h1 className="text-xl font-bold text-gray-800">
           نتائج البحث عن: <span className="text-teal-600">"{searchQuery}"</span>
@@ -65,7 +64,6 @@ const Search = () => {
                 window.scrollTo(0, 0);
               }}
               className="border border-slate-100 rounded-xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-300 bg-white shadow-sm hover:shadow-md group text-center">
-              {/* صورة بارزة الارتفاع */}
               <div className="bg-slate-50 overflow-hidden relative h-48 md:h-60">
                 <img
                   src={item.image}
@@ -74,7 +72,6 @@ const Search = () => {
                 />
               </div>
 
-              {/* تفاصيل الطبيب */}
               <div className="p-3 flex flex-col items-center">
                 <div
                   className={`flex items-center gap-1 text-[10px] mb-1 ${item.available ? "text-green-500" : "text-gray-400"}`}>
@@ -91,7 +88,6 @@ const Search = () => {
                   {specialityTranslation[item.speciality] || item.speciality}
                 </p>
 
-                {/* العنوان */}
                 <div className="flex items-center justify-center gap-1 text-gray-500 text-[10px] mb-2 w-full">
                   <span className="text-teal-500">📍</span>
                   <p className="truncate font-light">
@@ -100,7 +96,6 @@ const Search = () => {
                   </p>
                 </div>
 
-                {/* التقييم */}
                 <div className="flex flex-col items-center justify-center pt-2 border-t border-slate-50 w-full">
                   <div className="flex text-yellow-400 text-xs mb-0.5">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -124,7 +119,6 @@ const Search = () => {
           ))}
         </div>
       ) : (
-        /* واجهة عدم وجود نتائج */
         <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
           <img
             src={assets.no_results_icon || assets.search_icon}

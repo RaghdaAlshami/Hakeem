@@ -17,12 +17,12 @@ import { getAiMedicalAdvice } from "../controllers/aiController.js";
 
 const userRouter = express.Router();
 
-// المسارات العامة
+
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
-userRouter.post("/google-auth", googleAuth); // تم تصحيح طريقة الكتابة هنا
+userRouter.post("/google-auth", googleAuth); 
 
-// المسارات المحمية (تتطلب تسجيل دخول)
+
 userRouter.get("/get-profile", authUser, getUserProfile);
 
 userRouter.post(
@@ -37,6 +37,5 @@ userRouter.post("/cancel-appointment", authUser, cancelAppointment);
 userRouter.post("/rate-appointment", authUser, rateAppointment);
 
 
-// مسار استشارة الذكاء الاصطناعي
 userRouter.post("/ai-consultation", getAiMedicalAdvice);
 export default userRouter;

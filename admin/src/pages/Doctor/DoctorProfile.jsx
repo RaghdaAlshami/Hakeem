@@ -59,7 +59,6 @@ const DoctorProfile = () => {
     try {
       const formData = new FormData();
 
-      // إضافة البيانات الأساسية
        formData.append("name", profileData.name);
       formData.append("fees", profileData.fees);
       formData.append("about", profileData.about);
@@ -70,7 +69,7 @@ const DoctorProfile = () => {
       formData.append("workingDays", JSON.stringify(profileData.workingDays));
       formData.append("workingHours", JSON.stringify(profileData.workingHours));
 
-      // إضافة الصورة إذا تم اختيار صورة جديدة
+      
       
       image && formData.append("image", image);
 
@@ -84,7 +83,7 @@ const DoctorProfile = () => {
         toast.success(data.message);
         await getProfileData();
         setIsEdit(false);
-        setImage(false); // إعادة تعيين الصورة المختارة
+        setImage(false); 
         
       } else {
         toast.error(data.message);
@@ -115,9 +114,9 @@ return (
       className="m-2 md:m-5 flex flex-col items-center font-['Cairo']"
       dir="rtl">
       <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
-        {/* 1. قسم الصورة والاسم - تم تحسين التنسيق هنا */}
+       
         <div className="relative bg-gradient-to-r from-hakeem-dark/5 to-transparent p-6 pb-12 md:pb-6 flex flex-col md:flex-row items-center md:items-end gap-6">
-          {/* حاوية الصورة */}
+        
           <div className="relative z-10">
             {isEdit ? (
               <label
@@ -147,7 +146,7 @@ return (
             )}
           </div>
 
-          {/* حاوية النصوص */}
+         
           <div className="text-center md:text-right flex-1 space-y-1">
             {isEdit ? (
               <input
@@ -168,7 +167,6 @@ return (
               {profileData.email}
             </p>
 
-            {/* النجوم والمراجعات */}
             <div className="mt-2 flex items-center justify-center md:justify-start gap-3">
               <div className="flex items-center text-yellow-400">
                 {renderStars(profileData.rating || 5)}
@@ -185,11 +183,10 @@ return (
           </div>
         </div>
 
-        {/* باقي الأقسام تبدأ من هنا... */}
+   
 
         <div className="p-6 space-y-6">
-          {/* 2. قسم النبذة التعريفية */}
-          {/* 2. قسم النبذة التعريفية - أصبح قابلاً للتعديل الآن */}
+         
           <section>
             <h3 className="flex items-center gap-2 text-gray-800 font-bold mb-2 text-sm">
               <span className="w-1 h-4 bg-hakeem-dark rounded-full"></span> نبذة
@@ -216,7 +213,7 @@ return (
             )}
           </section>
 
-          {/* 3. قسم جدول العمل - جعل الأزرار أصغر */}
+        
           <section className="bg-slate-50 p-4 rounded-xl border border-gray-100">
             <h3 className="flex items-center gap-2 text-gray-800 font-bold mb-3 text-sm">
               <span className="w-1 h-4 bg-cyan-600 rounded-full"></span> جدول
@@ -302,7 +299,7 @@ return (
             </div>
           </section>
 
-          {/* 4. الموقع والتكاليف - تصغير الخطوط والمسافات */}
+       
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="space-y-3">
               <h3 className="text-gray-800 font-bold text-sm flex items-center gap-2 ">
@@ -383,7 +380,7 @@ return (
           </div>
         </div>
 
-        {/* 5. زر التحكم - تقليل الحجم */}
+    
         <div className="p-4 bg-gray-50 flex justify-center border-t border-gray-100">
           <button
             onClick={isEdit ? updateProfile : () => setIsEdit(true)}

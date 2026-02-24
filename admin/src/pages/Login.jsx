@@ -50,7 +50,7 @@ const Login = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center relative px-4"
-      style={{ backgroundImage: `url(${assets.bg_icon})` }} // استخدام نفس خلفية الفرونت
+      style={{ backgroundImage: `url(${assets.bg_icon})` }} 
     >
   
       <div className="absolute inset-0 bg-teal-950/20 backdrop-blur-[2px]"></div>

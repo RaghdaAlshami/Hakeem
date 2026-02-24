@@ -56,7 +56,6 @@ const App = () => {
                 />
                 <Route path="/doctor-profile" element={<DoctorProfile />} />
 
-             
                 <Route path="/profile/:userId" element={<PatientProfile />} />
               </>
             )}

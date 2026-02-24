@@ -32,7 +32,7 @@ const DoctorsList = () => {
           <div
             key={index}
             className="relative border-none bg-white shadow-md rounded-xl max-w-56 overflow-hidden cursor-pointer group hover:scale-105 transition-all duration-300">
-            {/* زر الحذف */}
+          
             <button
               onClick={() => handleDelete(item._id, item.name)}
               className="absolute top-2 right-2 z-10 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-red-700 shadow-lg"
@@ -52,7 +52,6 @@ const DoctorsList = () => {
               </svg>
             </button>
 
-            {/* --- الجزء الذي حل المشكلة: تثبيت الطول والعرض ومنع الانهيار --- */}
             <img
               className="bg-blue-50 group-hover:bg-hakeem-dark transition-all duration-500 w-full h-48 object-cover object-top block"
               src={item.image || assets.upload_area}

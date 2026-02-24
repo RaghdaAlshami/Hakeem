@@ -55,12 +55,11 @@ const TopDoctors = () => {
                 {item.name}
               </h3>
 
-              {/* الاختصاص البارز */}
+          
               <p className="text-teal-700 text-[13px] font-bold mb-1 bg-teal-50 px-3 py-0.5 rounded-lg w-fit">
                 {specialityTranslation[item.speciality]}
               </p>
 
-              {/* العنوان: المدينة + الشارع */}
               <div className="flex items-center justify-center gap-1 text-gray-500 text-[11px] mb-3 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

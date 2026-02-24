@@ -10,18 +10,18 @@ const changeAvailability = async (req, res) => {
   try {
     const { docId } = req.body;
 
-    // البحث عن الطبيب وتحديث حالة التوفر
+ 
     const docData = await doctorModel.findById(docId);
 
     if (!docData) {
       return res.json({ success: false, message: "الطبيب غير موجود" });
     }
 
-    // تحديث القيمة لعكس القيمة الحالية
+    
     const updatedDoctor = await doctorModel.findByIdAndUpdate(
       docId,
       { available: !docData.available },
-      { new: true }, // لإرجاع البيانات الجديدة بعد التحديث
+      { new: true }, 
     );
 
     res.json({
@@ -102,11 +102,11 @@ const appointmentComplete = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
-    // 1. جلب بيانات الموعد للتأكد من ملكيته
+    
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (appointmentData && appointmentData.docId === docId) {
-      // 2. تحديث حالة الموعد إلى مكتمل
+     
       await appointmentModel.findByIdAndUpdate(appointmentId, {
         isCompleted: true,
       });
@@ -129,16 +129,16 @@ const appointmentCancel = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
-    // 1. جلب بيانات الموعد للتأكد من ملكيته
+   
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (appointmentData && appointmentData.docId === docId) {
-      // 2. تحديث حالة الموعد إلى (ملغي)
+  
       await appointmentModel.findByIdAndUpdate(appointmentId, {
         cancelled: true,
       });
 
-      // 3. تحرير الوقت (Slot) في بيانات الطبيب ليعود متاحاً
+      
       const { slotDate, slotTime } = appointmentData;
       const doctorData = await doctorModel.findById(docId);
 
@@ -167,31 +167,31 @@ const doctorDashboard = async (req, res) => {
   try {
     const { docId } = req.body;
 
-    // 1. جلب كافة مواعيد هذا الطبيب
+   
     const appointments = await appointmentModel.find({ docId });
 
     let earnings = 0;
     let patients = [];
 
     appointments.map((item) => {
-      // حساب الأرباح من المواعيد المكتملة فقط
+    
       if (item.isCompleted) {
         earnings += item.amount;
       }
 
-      // تجميع المرضى الفريدين (بدون تكرار)
+    
       if (!patients.includes(item.userId)) {
         patients.push(item.userId);
       }
     });
 
-    // 2. تجهيز البيانات النهائية
+   
     const dashData = {
-      earnings, // الأرباح بالليرة السورية
-      appointments: appointments.length, // إجمالي المواعيد
-      patients: patients.length, // عدد المرضى الذين زاروا الطبيب
+      earnings, 
+      appointments: appointments.length, 
+      patients: patients.length, 
       latestAppointments: appointments.reverse().slice(0, 7),
-      graphData: appointments.map((app) => ({ slotDate: app.slotDate })), // آخر 5 مواعيد فقط للعرض السريع
+      graphData: appointments.map((app) => ({ slotDate: app.slotDate })),
     };
 
     res.json({ success: true, dashData });
@@ -207,10 +207,9 @@ const doctorDashboard = async (req, res) => {
 //API to get doctor profile for Doctor Panel
 const doctorProfile = async (req, res) => {
   try {
-    // userId سيأتي من الـ middleware بعد فك تشفير التوكن
+    
     const { docId } = req.body;
 
-    // جلب بيانات المستخدم باستثناء كلمة المرور للأمان
     const docData = await doctorModel.findById(docId).select("-password");
 
     if (!docData) {
@@ -253,7 +252,7 @@ const updateDoctorProfile = async (req, res) => {
       });
     }
 
-    // تجهيز بيانات التحديث - تم تصحيح الأخطاء هنا 👇
+  
     const updateData = {
       name,
       fees,
@@ -261,8 +260,8 @@ const updateDoctorProfile = async (req, res) => {
       experience,
       available,
       address: address ? JSON.parse(address) : doc.address,
-      workingDays: workingDays ? JSON.parse(workingDays) : doc.workingDays, // تم التصحيح من address إلى workingDays
-      workingHours: workingHours ? JSON.parse(workingHours) : doc.workingHours, // تم التصحيح من address إلى workingHours
+      workingDays: workingDays ? JSON.parse(workingDays) : doc.workingDays, 
+      workingHours: workingHours ? JSON.parse(workingHours) : doc.workingHours, 
     };
 
     if (imageFile) {

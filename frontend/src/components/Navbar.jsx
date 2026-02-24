@@ -24,7 +24,6 @@ const Navbar = () => {
       dir="rtl"
       className="sticky top-0 z-50 bg-slate-50 border-b border-gray-100 shadow-md shadow-gray-200/60 py-2 px-5">
       <div className="max-w-7xl mx-auto flex items-center justify-between w-full">
-        {/* 1. اليمين: الشعار */}
         <div className="flex-none">
           <img
             onClick={() => navigate("/")}
@@ -34,7 +33,6 @@ const Navbar = () => {
           />
         </div>
 
-        {/* 2. الوسط: الروابط والبحث (Desktop Only) */}
         <div className="hidden xl:flex flex-1 items-center justify-center gap-10">
           <ul className="flex items-center gap-8 text-gray-500 font-medium whitespace-nowrap">
             {["/", "/doctors", "/about", "/contact"].map((path, index) => (
@@ -71,7 +69,6 @@ const Navbar = () => {
           </form>
         </div>
 
-        {/* 3. اليسار: الحساب والمنيو */}
         <div className="flex items-center gap-2 md:gap-5">
           {token && userData ? (
             <div className="group relative cursor-pointer">
@@ -81,7 +78,7 @@ const Navbar = () => {
                 alt="profile"
               />
               <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-                <div className="min-w-[160px] bg-white shadow-xl rounded-xl p-2 text-sm text-right border border-gray-100">
+                <div className="min-w-40 bg-white shadow-xl rounded-xl p-2 text-sm text-right border border-gray-100">
                   <p
                     onClick={() => navigate("/my-profile")}
                     className="p-2.5 hover:bg-slate-50 rounded-lg transition-colors">
@@ -105,7 +102,6 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            /* --- تم تعديل الكلاسات هنا لإظهار الزر في كل الشاشات --- */
             <button
               onClick={() => navigate("/login")}
               className="bg-teal-700 text-white px-5 sm:px-10 py-2 sm:py-3 rounded-full text-[10px] sm:text-xs font-bold block hover:bg-teal-800 transition-all shadow-sm whitespace-nowrap">
@@ -119,7 +115,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* منيو الموبايل الجانبية */}
       <div
         className={`fixed inset-0 z-[60] bg-white transition-all duration-300 ${showMenu ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex items-center justify-between p-6 border-b border-gray-50">

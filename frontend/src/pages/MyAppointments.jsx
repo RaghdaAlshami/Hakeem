@@ -45,7 +45,7 @@ const MyAppointments = () => {
         headers: { token },
       });
       if (data.success) {
-        setAppointments(data.appointments.reverse()); // عرض الأحدث أولاً
+        setAppointments(data.appointments.reverse());
       }
     } catch (error) {
       toast.error(error.message);
@@ -70,7 +70,6 @@ const MyAppointments = () => {
   };
 
   const cancelAppointment = async (appointmentId) => {
-    // تم استبدال SweetAlert بـ confirm التقليدي بناءً على طلبك السابق
     const isConfirmed = window.confirm(
       "هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟",
     );
@@ -113,7 +112,6 @@ const MyAppointments = () => {
           <div
             key={index}
             className="flex flex-col sm:flex-row gap-6 p-4 bg-white border border-slate-100 rounded-2xl hover:shadow-md transition-shadow">
-            {/* صورة الطبيب */}
             <div className="flex-shrink-0">
               <img
                 onClick={() => navigate(`/appointment/${item.docId}`)}
@@ -123,7 +121,6 @@ const MyAppointments = () => {
               />
             </div>
 
-            {/* تفاصيل الموعد */}
             <div className="flex-1">
               <p className="text-xl font-semibold text-slate-800 mb-1">
                 {item.docData.name}
@@ -144,7 +141,6 @@ const MyAppointments = () => {
               </div>
             </div>
 
-            {/* أزرار التحكم */}
             <div className="flex flex-col gap-3 justify-center sm:min-w-[160px]">
               {!item.cancelled && !item.isCompleted && (
                 <button

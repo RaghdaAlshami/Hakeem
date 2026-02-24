@@ -85,7 +85,6 @@ const MyProfile = () => {
         dir="rtl"
         className="min-h-screen bg-slate-50/50 py-12 px-4 font-cairo">
         <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          {/* خلفية علوية ناعمة وصورة البروفايل */}
           <div className="bg-slate-100 h-24 relative">
             <div className="absolute -bottom-10 right-8">
               {isEdit ? (
@@ -118,7 +117,6 @@ const MyProfile = () => {
           </div>
 
           <div className="pt-14 pb-8 px-8">
-            {/* قسم الاسم */}
             <div className="mb-6">
               {isEdit ? (
                 <input
@@ -138,18 +136,14 @@ const MyProfile = () => {
             </div>
 
             <div className="space-y-6">
-              {/* قسم التواصل - خطوط أصغر وتنسيق أنظف */}
-              {/* قسم التواصل - تم تعديل رقم الهاتف ليظهر بجانب النص */}
               <section>
                 <h3 className="text-teal-700 text-[13px] font-bold mb-3 flex items-center gap-2 opacity-80 uppercase tracking-wider">
                   معلومات الاتصال
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  {/* تعديل رقم الهاتف هنا */}
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       {" "}
-                      {/* هذا السطر يضمن ظهورهما بجانب بعض */}
                       <p className="text-[11px] text-slate-400 font-bold whitespace-nowrap">
                         رقم الهاتف:
                       </p>
@@ -176,7 +170,6 @@ const MyProfile = () => {
                     )}
                   </div>
 
-                  {/* العنوان */}
                   <div className="space-y-1">
                     <p className="text-[11px] text-slate-400 font-bold">
                       العنوان
@@ -224,7 +217,6 @@ const MyProfile = () => {
                 </div>
               </section>
 
-              {/* البيانات الحيوية */}
               <section>
                 <h3 className="text-teal-700 text-[13px] font-bold mb-3 flex items-center gap-2 opacity-80 uppercase tracking-wider">
                   المعلومات الأساسية
@@ -304,7 +296,6 @@ const MyProfile = () => {
                 </div>
               </section>
 
-              {/* تغيير كلمة المرور - بشكل مدمج وأنيق */}
               {isEdit && (
                 <section className="animate-in fade-in slide-in-from-top-2 duration-300">
                   <h3 className="text-slate-500 text-[11px] font-bold mb-3 flex items-center gap-2 uppercase tracking-widest">
@@ -354,7 +345,6 @@ const MyProfile = () => {
               )}
             </div>
 
-            {/* الأزرار - حجم أصغر وتصميم مدروس */}
             <div className="mt-10 flex justify-end items-center gap-3">
               {isEdit ? (
                 <>

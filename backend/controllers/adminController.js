@@ -6,7 +6,7 @@ import userModel from "../models/userModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 import jwt from "jsonwebtoken";
 
-// API لإضافة طبيب
+// API to add a doctor
 const addDoctor = async (req, res) => {
   try {
     const {
@@ -85,7 +85,7 @@ const addDoctor = async (req, res) => {
   }
 };
 
-// API تسجيل دخول المسؤول
+// API to Admin login 
 const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -104,7 +104,7 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-// جلب جميع الأطباء
+// API to get all doctords
 const allDoctors = async (req, res) => {
   try {
     const doctors = await doctorModel.find({}).select("-password");
@@ -115,7 +115,7 @@ const allDoctors = async (req, res) => {
   }
 };
 
-// جلب جميع المواعيد
+// Api tp fetch all appointments
 const appointmentsAdmin = async (req, res) => {
   try {
     const appointments = await appointmentModel.find({});
@@ -129,7 +129,7 @@ const appointmentsAdmin = async (req, res) => {
   }
 };
 
-// إلغاء الموعد
+// API to cancel an appointment
 const appointmentCancel = async (req, res) => {
   try {
     const { appointmentId } = req.body;
@@ -156,7 +156,7 @@ const appointmentCancel = async (req, res) => {
   }
 };
 
-// جلب بيانات لوحة التحكم
+// Api to fetch dash data
 const adminDashboard = async (req, res) => {
   try {
     const doctors = await doctorModel.find({});
@@ -179,10 +179,7 @@ const adminDashboard = async (req, res) => {
   }
 };
 
-// --- الدوال الجديدة المضافة ---
-
-// جلب كل المستخدمين
-// جلب كل المستخدمين - الكود الصحيح للباك إند
+// API to get all users
 const allUsers = async (req, res) => {
     try {
         const users = await userModel.find({}).select("-password");
@@ -193,7 +190,7 @@ const allUsers = async (req, res) => {
     }
 };
 
-// حذف مستخدم
+//api to delete a user
 const deleteUser = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -204,7 +201,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// حذف طبيب
+// API to delete a doctor
 const deleteDoctor = async (req, res) => {
   try {
     const { docId } = req.body;
@@ -215,7 +212,7 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
-// تغيير توفر الطبيب
+// APi to change doctor availability
 const changeAvailability = async (req, res) => {
   try {
     const { docId } = req.body;
@@ -236,7 +233,7 @@ export {
   appointmentsAdmin,
   appointmentCancel,
   adminDashboard,
-  allUsers, // تأكدي أنه allUsers وليس getAllUsers
+  allUsers, 
   deleteUser,
   deleteDoctor,
   changeAvailability,

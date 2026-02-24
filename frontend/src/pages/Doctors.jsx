@@ -28,7 +28,6 @@ const Doctors = () => {
     "القنيطرة",
   ];
 
-  // --- 1. إنشاء قائمة التخصصات وترتيبها أبجدياً من القاموس مباشرة ---
   const dynamicSpecialities = Object.entries(specialityTranslation)
     .map(([slug, name]) => ({ name, slug }))
     .sort((a, b) => a.name.localeCompare(b.name, "ar"));
@@ -59,7 +58,6 @@ const Doctors = () => {
 
   return (
     <div dir="rtl" className="p-5 md:mx-10 font-cairo text-right">
-      {/* --- فلتر المدن العلوي --- */}
       <div className="mb-8 overflow-x-auto">
         <div className="flex gap-3 pb-2 no-scrollbar">
           <button
@@ -87,7 +85,7 @@ const Doctors = () => {
       </div>
 
       <div className="flex flex-col md:flex-row items-start gap-8">
-        {/* --- Side Bar الجانبي (التخصصات مرتبة أبجدياً) --- */}
+        {/* --- Side Bar--- */}
         <div className="w-full md:w-[22rem] sticky top-5">
           <button
             onClick={() => setShowFilter(!showFilter)}
@@ -146,7 +144,6 @@ const Doctors = () => {
         </div>
 
         {/* --- Doctors Grid --- */}
-        {/* --- Doctors Grid --- */}
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-y-6">
             {filteredDoctors.length > 0 ? (
@@ -158,14 +155,13 @@ const Doctors = () => {
                     window.scrollTo(0, 0);
                   }}
                   className="border border-blue-100 rounded-xl overflow-hidden cursor-pointer hover:-translate-y-2 transition-all duration-500 bg-white shadow-sm hover:shadow-lg group text-center">
-                  {/* تم زيادة الارتفاع هنا من h-48 إلى h-64 (256px) أو h-72 (288px) حسب رغبتك */}
                   <div className="bg-slate-50 overflow-hidden relative h-64 md:h-72">
                     <img
                       src={item.image}
                       alt={item.name}
                       className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500"
                     />
-                    {/* لمسة إضافية: تدرج لوني خفيف أسفل الصورة لتحسين الرؤية */}
+
                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
 

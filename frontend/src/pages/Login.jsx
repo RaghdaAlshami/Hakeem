@@ -135,10 +135,10 @@ const Login = () => {
                     setToken(data.token);
                   }
                 }}
-                theme="outline" // "outline" يعطي شفافية وأناقة أكثر من الأزرق
+                theme="outline"
                 shape="pill"
                 size="large"
-                width="360" // جعل العرض ممتداً ليملأ الحاوية الدائرية
+                width="360"
                 logo_alignment="center"
               />
             </div>

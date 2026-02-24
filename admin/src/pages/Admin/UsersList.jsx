@@ -17,7 +17,7 @@ const UsersList = () => {
     }
   };
 
-  // دالة بسيطة لتنسيق التاريخ
+  
   const formatDate = (dateString) => {
     if (!dateString) return "غير متوفر";
     const date = new Date(dateString);
@@ -35,7 +35,7 @@ const UsersList = () => {
       </h1>
 
       <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
-        {/* رأس الجدول - تم تعديل توزيع الأعمدة grid-cols */}
+      
         <div className="hidden sm:grid grid-cols-[0.5fr_2fr_2fr_1.5fr_1.5fr_0.5fr] items-center py-4 px-6 bg-gray-100 border-b border-gray-100 font-semibold text-gray-600 text-sm">
           <p>#</p>
           <p>الاسم</p>
@@ -66,7 +66,7 @@ const UsersList = () => {
 
                 <p>{item.phone || "غير محدد"}</p>
 
-                {/* عمود التاريخ الجديد */}
+              
                 <p className="text-xs text-gray-500">
                   {item.createdAt
                     ? formatDate(item.createdAt)

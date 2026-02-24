@@ -14,7 +14,7 @@ const DoctorAppointments = () => {
     cancelAppointment,
   } = useContext(DoctorContext);
 
-  // 1. دالة تنسيق التاريخ
+
   const formatSlotDate = (slotDate) => {
     const dateArray = slotDate.split("_");
     const months = [
@@ -34,13 +34,13 @@ const DoctorAppointments = () => {
     return `${dateArray[0]} ${months[parseInt(dateArray[1]) - 1]} ${dateArray[2]}`;
   };
 
-  // 2. دالة تحويل AM/PM للعرض العربي (مع معالجة ترتيب الأرقام)
+  
   const formatTimeArabic = (timeStr) => {
     if (!timeStr) return "";
     return timeStr.replace("AM", "صباحاً").replace("PM", "مساءً");
   };
 
-  // 3. دالة حساب العمر
+
   const calculateAge = (dob) => {
     const today = new Date();
     const birthDate = new Date(dob);
@@ -48,7 +48,7 @@ const DoctorAppointments = () => {
     return age;
   };
 
-  // 4. تحويل الوقت إلى دقائق للمقارنة البرمجية
+  
   const timeToMinutes = (timeStr) => {
     const [time, period] = timeStr.split(" ");
     let [hours, minutes] = time.split(":").map(Number);
@@ -57,7 +57,6 @@ const DoctorAppointments = () => {
     return hours * 60 + minutes;
   };
 
-  // 5. منطق شريط الحالة المباشر
   const getLiveStats = () => {
     const now = new Date();
     const todayStr = `${now.getDate()}_${now.getMonth() + 1}_${now.getFullYear()}`;
@@ -96,7 +95,7 @@ const DoctorAppointments = () => {
     }
   }, [dToken]);
 
-  // 6. ترتيب المواعيد (الأحدث في الأعلى)
+ 
   const sortedAppointments = [...appointments].sort((a, b) => {
     const dateA = new Date(a.slotDate.split("_").reverse().join("-"));
     const dateB = new Date(b.slotDate.split("_").reverse().join("-"));
@@ -105,7 +104,7 @@ const DoctorAppointments = () => {
 
   return (
     <div className="m-5 font-['Cairo']" dir="rtl">
-      {/* شريط الحالة المباشر */}
+ 
       <div className="mb-6 flex flex-wrap gap-4">
         <div className="bg-blue-50 border-r-4 border-blue-500 p-4 rounded-lg shadow-sm flex-1 min-w-[250px]">
           <div className="flex items-center gap-3">
@@ -135,7 +134,7 @@ const DoctorAppointments = () => {
       </p>
 
       <div className="bg-white border border-gray-300 rounded text-sm max-h-[80vh] min-h-[60vh] overflow-y-scroll shadow-sm">
-        {/* رأس الجدول */}
+
         <div className="max-sm:hidden grid grid-cols-[0.5fr_2.5fr_1fr_1fr_3fr_1.5fr_1fr] items-center py-3 px-6 border-b border-gray-300 bg-gray-50 font-bold text-gray-700 text-center">
           <p className="text-right">#</p>
           <p className="text-right">المريض</p>
@@ -171,7 +170,7 @@ const DoctorAppointments = () => {
                 {item.userData.bloodGroup || "غير محدد"}
               </p>
 
-              {/* خلية التاريخ والوقت المحدثة */}
+          
               <p className="font-semibold text-gray-700 whitespace-nowrap flex items-center justify-center gap-1">
                 <span>{formatSlotDate(item.slotDate)}</span>
                 <span className="text-cyan-600 font-bold mx-1">|</span>

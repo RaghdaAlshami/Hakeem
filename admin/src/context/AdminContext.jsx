@@ -173,12 +173,12 @@ const AdminContextProvider = (props) => {
   };
 
   const deleteUser = async (userId) => {
-    // 1. طلب التأكيد من المسؤول برسالة تحذيرية واضحة
+    
     const isConfirmed = window.confirm(
       "تحذير: هل أنت متأكد من حذف هذا المستخدم نهائياً؟ ستفقد كافة بيانات الحساب ولا يمكن استعادتها مرة أخرى.",
     );
 
-    // 2. إذا لم يتم التأكيد، توقف عن التنفيذ
+  
     if (!isConfirmed) {
       return;
     }
@@ -192,9 +192,9 @@ const AdminContextProvider = (props) => {
 
       if (data.success) {
         toast.success(data.message);
-        getAllUsers(); // تحديث قائمة المستخدمين فوراً
+        getAllUsers(); 
       } else {
-        // إضافة التعامل مع حالة عدم النجاح (إذا أرجع السيرفر success: false)
+       
         toast.error(data.message);
       }
     } catch (error) {

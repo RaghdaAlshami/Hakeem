@@ -64,7 +64,6 @@ const AddDoctor = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    // التحقق من الحقول الإجبارية فقط
     if (!name || !email || !password || !speciality || !address2 || !fees) {
       return toast.error(
         "يرجى ملء الحقول الأساسية: الاسم، الإيميل، كلمة السر، الاختصاص، المدينة، وسعر الكشف",
@@ -74,7 +73,7 @@ const AddDoctor = () => {
     try {
       const formData = new FormData();
 
-      // الحقول الإجبارية
+    
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
@@ -85,13 +84,11 @@ const AddDoctor = () => {
         JSON.stringify({ line1: address1 || "غير محدد", city: address2 }),
       );
 
-      // الحقول الاختيارية (مع إضافة قيم افتراضية إذا كانت فارغة)
       if (docImg) formData.append("image", docImg);
       formData.append("degree", degree || "غير محدد");
       formData.append("experience", experience);
       formData.append("about", about || "");
 
-      // إرسال الأيام والساعات (حتى لو فارغة لن تسبب خطأ في الإرسال)
       formData.append("workingDays", JSON.stringify(workingDays));
       formData.append("workingHours", JSON.stringify(workingHours));
 
@@ -103,7 +100,7 @@ const AddDoctor = () => {
 
       if (data.success) {
         toast.success(data.message);
-        // تصفير الحقول
+       
         setDocImg(false);
         setName("");
         setEmail("");
@@ -135,7 +132,7 @@ const AddDoctor = () => {
       <p className="mb-3 text-lg font-bold text-gray-700">إضافة طبيب جديد</p>
 
       <div className="bg-white px-6 py-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-y-scroll shadow-md space-y-8">
-        {/* قسم الصورة (اختياري) */}
+      
         <div className="flex items-center gap-4 text-gray-500 border-b pb-4">
           <label htmlFor="doc-img">
             <img
@@ -220,7 +217,7 @@ const AddDoctor = () => {
               required>
               <option value="">-- اختر التخصص --</option>
               {Object.entries(specialityTranslation)
-                .sort((a, b) => a[1].localeCompare(b[1], "ar")) // ترتيب أبجدي عربي
+                .sort((a, b) => a[1].localeCompare(b[1], "ar")) 
                 .map(([enName, arName]) => (
                   <option key={enName} value={enName}>
                     {arName}

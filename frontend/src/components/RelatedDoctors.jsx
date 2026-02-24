@@ -31,7 +31,6 @@ const RelatedDoctors = ({ speciality, docId }) => {
         </span>
       </p>
 
-      {/* تحسين الشبكة لتكون البطاقات أصغر (5 أعمدة في الشاشات الكبيرة) */}
       <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pt-2 justify-items-center">
         {relDocs.slice(0, 5).map((item, index) => (
           <div
@@ -40,9 +39,7 @@ const RelatedDoctors = ({ speciality, docId }) => {
               navigate(`/appointment/${item._id}`);
               window.scrollTo(0, 0);
             }}
-            // تقليل الحد الأقصى للعرض لتصغير البطاقة
             className="max-w-[190px] md:max-w-[210px] w-full border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-2 transition-all duration-500 bg-white shadow-sm hover:shadow-md group flex flex-col text-center">
-            {/* زيادة ارتفاع الصورة لإعطاء مظهر طولي (h-60 للموبايل و h-64 للشاشات الأكبر) */}
             <div className="bg-slate-50 overflow-hidden relative h-56 md:h-64">
               <img
                 src={item.image}
@@ -51,7 +48,7 @@ const RelatedDoctors = ({ speciality, docId }) => {
               />
             </div>
 
-            <div className="p-3 flex flex-col flex-grow items-center">
+            <div className="p-3 flex flex-col grow items-center">
               <div
                 className={`flex items-center gap-1.5 text-[10px] mb-1.5 ${
                   item.available ? "text-green-500" : "text-gray-400"
@@ -73,7 +70,6 @@ const RelatedDoctors = ({ speciality, docId }) => {
                 {specialityTranslation[item.speciality]}
               </p>
 
-              {/* إظهار العنوان بشكل أنيق في المنتصف */}
               <div className="flex items-center justify-center gap-1 text-gray-500 text-[10px] mb-3 w-full px-1">
                 <span className="text-teal-500 text-xs">📍</span>
                 <p className="truncate font-light">
@@ -82,7 +78,6 @@ const RelatedDoctors = ({ speciality, docId }) => {
                 </p>
               </div>
 
-              {/* النجوم السفلية */}
               <div className="mt-auto pt-2 border-t border-slate-50 w-full flex flex-col items-center">
                 <div className="flex text-yellow-400 text-sm">
                   {[1, 2, 3, 4, 5].map((star) => (

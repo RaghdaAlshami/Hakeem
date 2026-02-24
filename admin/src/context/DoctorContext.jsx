@@ -19,8 +19,7 @@ const DoctorContextProvider = (props) => {
 
   const getAppointments = async () => {
     try {
-      // 1. إرسال طلب GET مع تمرير التوكن في الـ Headers
-      // ملاحظة: نستخدم dToken (بحرف صغير أو كبير حسب ما عرفتيه في الـ Middleware)
+     
       const { data } = await axios.get(
         backendUrl + "/api/doctor/appointments",
         {
@@ -29,11 +28,11 @@ const DoctorContextProvider = (props) => {
       );
 
       if (data.success) {
-        // 2. تخزين المواعيد في الـ State (تأكدي من تعريف [appointments, setAppointments])
-        setAppointments(data.appointments); // تخزين المواعيد في الـ State
+      
+        setAppointments(data.appointments); 
         console.log(data.appointments);
       } else {
-        // 3. عرض رسالة خطأ إذا لم تنجح العملية
+     
         toast.error(data.message);
       }
     } catch (error) {
@@ -44,8 +43,7 @@ const DoctorContextProvider = (props) => {
 
   const completeAppointment = async (appointmentId) => {
     try {
-      // 1. إرسال طلب GET مع تمرير التوكن في الـ Headers
-      // ملاحظة: نستخدم dToken (بحرف صغير أو كبير حسب ما عرفتيه في الـ Middleware)
+    
       const { data } = await axios.post(
         backendUrl + "/api/doctor/complete-appointment",
         { appointmentId },
@@ -58,7 +56,7 @@ const DoctorContextProvider = (props) => {
         toast.success(data.message);
         getAppointments();
       } else {
-        // 3. عرض رسالة خطأ إذا لم تنجح العملية
+      
         toast.error(data.message);
       }
     } catch (error) {

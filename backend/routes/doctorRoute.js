@@ -11,7 +11,7 @@ import {
   getUserProfile,
 } from "../controllers/doctorController.js";
 import authDoctor from "../middlewares/authDoctor.js";
-import upload from "../middlewares/multer.js"; // 1. تأكد من استيراد الملتر هنا
+import upload from "../middlewares/multer.js"; 
 
 
 const doctorRouter = express.Router();
@@ -25,7 +25,7 @@ doctorRouter.post("/cancel-appointment", authDoctor, appointmentCancel);
 doctorRouter.get("/dashboard", authDoctor, doctorDashboard);
 doctorRouter.get("/profile", authDoctor, doctorProfile);
 
-// 2. تعديل هذا السطر تحديداً لإضافة خاصية رفع الصور وتحليل الـ FormData
+
 doctorRouter.post(
   "/update-profile",
   upload.single("image"),

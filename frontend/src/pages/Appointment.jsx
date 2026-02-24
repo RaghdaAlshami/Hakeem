@@ -5,7 +5,7 @@ import { assets } from "../assets/assets";
 import RelatedDoctors from "../components/RelatedDoctors";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { specialityTranslation } from "../assets/assets"; // استيراد القاموس
+import { specialityTranslation } from "../assets/assets"; 
 
 
 const Appointment = () => {
@@ -47,17 +47,17 @@ const Appointment = () => {
     setDocInfo(foundDoc);
   };
 
-  // دالة لتحويل AM/PM إلى صباحاً/مساءً للعرض فقط
+
   const formatTimeArabic = (timeStr) => {
     if (!timeStr) return "";
 
-    // 1. فصل الوقت (مثلاً 10:30) عن العلامة (AM/PM)
+   
     const [time, period] = timeStr.split(" ");
 
-    // 2. تحويل العلامة
+   
     const periodAr = period === "AM" ? "صباحاً" : "مساءً";
 
-    // 3. نرجع النص مع التأكيد على اتجاه الأرقام
+  
     return `${time} ${periodAr}`;
   };
 
@@ -66,8 +66,7 @@ const Appointment = () => {
    let today = new Date();
    let allSlots = [];
 
-   // جلب بيانات العمل المحددة للطبيب من قاعدة البيانات
-   const workingDaysAr = docInfo.workingDays || []; // الأيام بالعربي
+   const workingDaysAr = docInfo.workingDays || []; 
    const startHour = docInfo.workingHours?.start
      ? parseInt(docInfo.workingHours.start.split(":")[0])
      : 10;
@@ -79,25 +78,25 @@ const Appointment = () => {
      let currentDate = new Date(today);
      currentDate.setDate(today.getDate() + i);
 
-     // 1. التحقق إذا كان اليوم من ضمن أيام عمل الطبيب
+   
      const dayNameAr = daysOfWeek[currentDate.getDay()];
      if (workingDaysAr.length > 0 && !workingDaysAr.includes(dayNameAr)) {
-       continue; // تخطي اليوم إذا لم يكن الطبيب يعمل فيه
+       continue; 
      }
 
      let endTime = new Date(currentDate);
      endTime.setHours(endHour, 0, 0, 0);
 
-     // 2. ضبط وقت البداية
+  
      if (today.getDate() === currentDate.getDate()) {
-       // إذا كان اليوم هو الحالي، نبدأ من الساعة الحالية + 1 أو وقت بدء الدوام (أيهما أكبر)
+   
        const currentHour = currentDate.getHours();
        currentDate.setHours(
          currentHour >= startHour ? currentHour + 1 : startHour,
        );
        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
      } else {
-       // الأيام القادمة تبدأ من وقت فتح العيادة المخصص
+    
        currentDate.setHours(startHour);
        currentDate.setMinutes(0);
      }
@@ -187,7 +186,7 @@ const Appointment = () => {
 
   return (
     <div dir="rtl" className="p-5 md:mx-10">
-      {/* --- تفاصيل الطبيب --- */}
+
       <div className="flex flex-col md:flex-row gap-6 lg:gap-12">
         <div className="bg-hakeem-dark w-full md:max-w-72 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
           <img
@@ -209,7 +208,7 @@ const Appointment = () => {
             </div>
           </div>
 
-          {/* --- قسم نجوم التقييم المضاف --- */}
+     
           <div className="flex items-center gap-3 mt-2">
             <div className="flex text-yellow-400 text-lg">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -254,7 +253,6 @@ const Appointment = () => {
             </p>
           </div>
 
-          {/* --- قسم العنوان والمدينة المنسق --- */}
           <div className="mt-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
             <p className="text-gray-900 font-bold mb-2 flex items-center gap-2 text-sm">
               موقع العيادة:
@@ -277,7 +275,7 @@ const Appointment = () => {
         </div>
       </div>
 
-      {/* --- باقي كود قسم المواعيد --- */}
+    
       <div className="mt-10 md:mr-4 font-medium text-gray-700">
         {docInfo.available ? (
           <>
@@ -313,10 +311,10 @@ const Appointment = () => {
                 docSlots[slotIndex].map((item, index) => (
                   <button
                     key={index}
-                    onClick={() => setSlotTime(item.time)} // هنا تبقى القيمة إنجليزية للحفظ في السيرفر
+                    onClick={() => setSlotTime(item.time)} 
                     className={`text-sm shrink-0 px-8 py-3 rounded-full cursor-pointer transition-all border
         ${item.time === slotTime ? "bg-hakeem-dark text-white border-hakeem-dark shadow-md" : "text-gray-500 border-gray-200 hover:border-hakeem-dark"}`}>
-                    {/* التعديل هنا: العرض بالعربي */}
+                   
                     {formatTimeArabic(item.time)}
                   </button>
                 ))}

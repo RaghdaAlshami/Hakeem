@@ -27,12 +27,12 @@ const Dashboard = () => {
     }
   }, [aToken]);
 
-  // معالجة البيانات الإحصائية (مرة واحدة فقط) مع دمج الترجمة العربية
+ 
   const specialityStats = appointments
     ? Object.values(
         appointments.reduce((acc, appointment) => {
           const englishSpec = appointment.docData?.speciality;
-          // جلب الترجمة العربية أو استخدام النص الإنجليزي في حال عدم وجودها
+          
           const arabicSpec =
             specialityTranslation[englishSpec] || englishSpec || "غير مصنف";
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
   return (
     dashData && (
       <div dir="rtl" className="m-5 font-['Cairo']">
-        {/* قسم البطاقات العلوية */}
+     
         <div className="flex flex-wrap gap-5">
           <div className="flex items-center gap-4 bg-white p-6 min-w-72 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
             <img className="w-14" src={assets.doctor_icon} alt="" />
@@ -81,7 +81,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* مخطط إحصائيات التخصصات */}
+   
         <div className="bg-white border border-gray-300 rounded-xl mt-8 p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-8 border-b pb-4">
             <div className="p-2 bg-blue-50 rounded-lg">
@@ -91,7 +91,7 @@ const Dashboard = () => {
               <p className="font-bold text-lg text-gray-800">
                 إحصاء المواعيد حسب الاختصاص
               </p>
-             
+            
             </div>
           </div>
 

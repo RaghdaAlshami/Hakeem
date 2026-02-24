@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { DoctorContext } from "../context/DoctorContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { assets } from "../assets/assets"; // تأكد من استيراد الأيقونات إذا لزم الأمر
+import { assets } from "../assets/assets"; 
 
 const PatientProfile = () => {
   const { userId } = useParams();
@@ -40,7 +40,7 @@ const PatientProfile = () => {
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        {/* القسم العلوي: الصورة والمعلومات الأساسية */}
+
         <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-gray-50">
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <img
@@ -58,9 +58,9 @@ const PatientProfile = () => {
           </div>
         </div>
 
-        {/* القسم السفلي: التفاصيل الحيوية */}
+     
         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* معلومات التواصل والبيانات الشخصية */}
+     
           <div>
             <h3 className="text-lg font-semibold text-primary mb-2 border-b border-gray-200 pb-2">
               المعلومات الشخصية
@@ -87,7 +87,6 @@ const PatientProfile = () => {
             </div>
           </div>
 
-          {/* المعلومات الطبية والعنوان */}
           <div>
             <h3 className="text-lg font-semibold text-primary mb-2 border-b border-gray-200 pb-2">
               البيانات الطبية والسكن

@@ -123,7 +123,6 @@ const updateProfile = async (req, res) => {
       return res.json({ success: false, message: "بيانات ناقصة" });
     }
 
-    // 1. جلب بيانات المستخدم مع التأكد من وجوده
     const user = await userModel.findById(userId);
 
     if (!user) {
@@ -133,11 +132,10 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    // 2. معالجة تغيير كلمة المرور
     let hashedPassword = user.password;
 
     if (newPassword) {
-      // إذا كان المستخدم يريد تغيير كلمة المرور
+    
       if (!currentPassword) {
         return res.json({
           success: false,
@@ -164,7 +162,7 @@ const updateProfile = async (req, res) => {
       hashedPassword = await bcrypt.hash(newPassword, salt);
     }
 
-    // 3. تجهيز بيانات التحديث
+
     const updateData = {
       name,
       phone,
@@ -196,14 +194,14 @@ const bookAppointment = async (req, res) => {
   try {
     const { userId, docId, slotDate, slotTime } = req.body;
 
-    // 1. جلب بيانات الطبيب
+
     const docData = await doctorModel.findById(docId).select("-password");
 
     if (!docData.available) {
       return res.json({ success: false, message: "الطبيب غير متاح حالياً" });
     }
 
-    // 2. التحقق من المواعيد المحجوزة لدى الطبيب (slots_booked)
+   
     let slots_booked = docData.slots_booked;
 
     if (slots_booked[slotDate]) {
@@ -217,13 +215,12 @@ const bookAppointment = async (req, res) => {
       slots_booked[slotDate].push(slotTime);
     }
 
-    // 3. جلب بيانات المستخدم لإضافتها في سجل الحجز
+   
     const userData = await userModel.findById(userId).select("-password");
 
-    // 4. حذف بيانات المواعيد من نسخة بيانات الطبيب (للحفاظ على خصوصية قاعدة البيانات)
+   
     delete docData.slots_booked;
 
-    // 5. إنشاء الحجز الجديد
     const appointmentData = {
       userId,
       docId,
@@ -238,7 +235,7 @@ const bookAppointment = async (req, res) => {
     const newAppointment = new appointmentModel(appointmentData);
     await newAppointment.save();
 
-    // 6. تحديث بيانات الطبيب بالمواعيد الجديدة (Slots Booked)
+    
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
     res.json({ success: true, message: "تم حجز الموعد بنجاح" });
@@ -253,8 +250,7 @@ const listAppointment = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    // البحث عن كل المواعيد الخاصة بهذا المستخدم
-    // استخدمنا .reverse() لكي تظهر المواعيد الجديدة في الأعلى
+   
     const appointments = await appointmentModel
       .find({ userId })
       .sort({ date: -1 });
@@ -292,12 +288,10 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    // 3. تحديث حالة الموعد إلى ملغى
     await appointmentModel.findByIdAndUpdate(appointmentId, {
       cancelled: true,
     });
 
-    // 4. تحرير وقت الموعد من قائمة الطبيب (Slot Release)
     const { docId, slotDate, slotTime } = appointmentData;
     const docData = await doctorModel.findById(docId);
 
@@ -322,7 +316,7 @@ const rateAppointment = async (req, res) => {
   try {
     const { userId, appointmentId, rating } = req.body;
 
-    // 1. التحقق من أن التقييم بين 1 و 5
+  
     if (rating < 1 || rating > 5) {
       return res.json({
         success: false,
@@ -330,7 +324,7 @@ const rateAppointment = async (req, res) => {
       });
     }
 
-    // 2. جلب بيانات الموعد
+  
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (!appointmentData || appointmentData.userId !== userId) {
@@ -340,7 +334,6 @@ const rateAppointment = async (req, res) => {
       });
     }
 
-    // 3. التأكد من أن الموعد مكتمل ولم يتم تقييمه من قبل
     if (!appointmentData.isCompleted) {
       return res.json({
         success: false,
@@ -355,24 +348,22 @@ const rateAppointment = async (req, res) => {
       });
     }
 
-    // 4. جلب بيانات الطبيب لتحديث متوسط التقييم
     const docId = appointmentData.docId;
     const doctorData = await doctorModel.findById(docId);
 
     let { rating: oldRating, numReviews } = doctorData;
 
-    // حساب المتوسط الحسابي الجديد
-    // المعادلة: (المتوسط القديم * عدد التقييمات + التقييم الجديد) / (عدد التقييمات + 1)
+    
     const newNumReviews = numReviews + 1;
     const newRating = (oldRating * numReviews + rating) / newNumReviews;
 
-    // 5. تحديث بيانات الطبيب
+
     await doctorModel.findByIdAndUpdate(docId, {
-      rating: newRating.toFixed(1), // تقريب النتيجة لمرتبة عشرية واحدة مثل 4.5
+      rating: newRating.toFixed(1), 
       numReviews: newNumReviews,
     });
 
-    // 6. تحديث الموعد لكي لا يتم تقييمه مرة أخرى
+    
     await appointmentModel.findByIdAndUpdate(appointmentId, {
       isRated: true,
       rating: rating,
@@ -389,9 +380,9 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleAuth = async (req, res) => {
   try {
-    const { token } = req.body; // التوكن القادم من Frontend (GoogleLogin)
+    const { token } = req.body; 
 
-    // 1. التحقق من التوكن عبر جوجل
+   
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -399,23 +390,21 @@ const googleAuth = async (req, res) => {
 
     const { name, email, picture, sub } = ticket.getPayload();
 
-    // 2. البحث عن المستخدم في قاعدة بياناتك
     let user = await userModel.findOne({ email });
 
     if (!user) {
-      // 3. إذا لم يوجد، أنشئي حساباً جديداً تلقائياً
+   
       user = await userModel.create({
         name,
         email,
         image: picture,
-        // نضع كلمة مرور عشوائية لأن المستخدم سيدخل عبر جوجل دائماً
+       
         password: await bcrypt.hash(sub + process.env.JWT_SECRET, 10),
-        address: { line1: "", city: "دمشق" }, // قيم افتراضية
+        address: { line1: "", city: "دمشق" }, 
         dob: "0001-01-01",
       });
     }
 
-    // 4. إنشاء توكن خاص بتطبيقك (JWT) ليدخل المستخدم
     const appToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.json({

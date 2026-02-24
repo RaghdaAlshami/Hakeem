@@ -23,7 +23,7 @@ const Navbar = () => {
     <div
       className="flex justify-between items-center px-4 sm:px-10 py-3 border-b border-gray-200 bg-white sticky top-0 z-20"
       dir="rtl">
-      {/* الجزء الأيمن: الشعار والوصف */}
+     
       <div className="flex items-center gap-2 sm:gap-3">
         <img
           onClick={() => navigate("/")}
@@ -36,7 +36,7 @@ const Navbar = () => {
         </p>
       </div>
 
-      {/* الجزء الأيسر: زر تسجيل الخروج */}
+     
       <button
         onClick={logout}
         className="bg-hakeem-dark text-white text-xs sm:text-sm px-5 sm:px-10 py-2 rounded-full hover: hover:bg-white hover:text-red-600 transition-all transform active:scale-95">
