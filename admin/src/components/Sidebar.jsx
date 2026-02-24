@@ -13,7 +13,7 @@ const Sidebar = () => {
     <div className="min-h-screen bg-white  " dir="rtl">
       {aToken && (
         <ul className="text-[#515151] mt-5">
-          {/* رابط لوحة التحكم */}
+  
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4  border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -23,7 +23,7 @@ const Sidebar = () => {
             <p className="hidden md:block">لوحة التحكم</p>
           </NavLink>
 
-          {/* رابط المواعيد */}
+         
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4 border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -33,7 +33,7 @@ const Sidebar = () => {
             <p className="hidden md:block">المواعيد</p>
           </NavLink>
 
-          {/* رابط إضافة طبيب */}
+
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4  border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -43,7 +43,6 @@ const Sidebar = () => {
             <p className="hidden md:block">إضافة طبيب</p>
           </NavLink>
 
-          {/* رابط قائمة الأطباء */}
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4  border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -53,7 +52,7 @@ const Sidebar = () => {
             <p className="hidden md:block">قائمة الأطباء</p>
           </NavLink>
 
-          {/* رابط قائمة الأطباء */}
+         
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4  border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -67,7 +66,7 @@ const Sidebar = () => {
 
       {dToken && (
         <ul className="text-[#515151] mt-5">
-          {/* رابط لوحة التحكم للطبيب */}
+          
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4 border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -77,7 +76,6 @@ const Sidebar = () => {
             <p className="hidden md:block">لوحة التحكم</p>
           </NavLink>
 
-          {/* رابط مواعيد الطبيب */}
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4 border-cyan-600 text-hakeem-dark font-bold" : ""}`
@@ -87,14 +85,13 @@ const Sidebar = () => {
             <p className="hidden md:block">المواعيد</p>
           </NavLink>
 
-          {/* رابط الملف الشخصي للطبيب - تم تعديل المسمى هنا */}
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer ${isActive ? "bg-[#F2F3FF] border-l-4 border-cyan-600 text-hakeem-dark font-bold" : ""}`
             }
             to={"/doctor-profile"}>
             <img className="w-5" src={assets.people_icon} alt="" />{" "}
-            {/* جربي استخدام people_icon للملف الشخصي */}
+          
             <p className="hidden md:block">الملف الشخصي</p>
           </NavLink>
         </ul>
