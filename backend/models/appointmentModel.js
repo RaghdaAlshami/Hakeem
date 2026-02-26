@@ -12,9 +12,9 @@ const appointmentSchema = new mongoose.Schema({
   cancelled: { type: Boolean, default: false },
   isCompleted: { type: Boolean, default: false },
 
-  // --- الحقول الجديدة للتقييم ---
-  isRated: { type: Boolean, default: false }, // للتأكد من أن المريض قيم الموعد مرة واحدة فقط
-  rating: { type: Number, default: 0 }, // عدد النجوم المعطاة لهذا الموعد (من 1 إلى 5)
+  
+  isRated: { type: Boolean, default: false },
+  rating: { type: Number, default: 0 }, 
 });
 
 const appointmentModel =

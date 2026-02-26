@@ -15,13 +15,12 @@ const doctorSchema = new mongoose.Schema(
     address: { type: Object, required: true },
     slots_booked: { type: Object, default: {} },
 
-    // --- الحقول الجديدة للتقييم ---
-    rating: { type: Number, default: 0 }, // متوسط التقييم (مثلاً 4.5)
+    rating: { type: Number, default: 0 }, 
     numReviews: { type: Number, default: 0 },
 
     workingHours: {
-      start: { type: String, default: "09:00" }, // تنسيق 24 ساعة (مثلاً 09:00)
-      end: { type: String, default: "17:00" }, // تنسيق 24 ساعة (مثلاً 17:00)
+      start: { type: String, default: "09:00" }, 
+      end: { type: String, default: "17:00" }, 
     },
 
     workingDays: {

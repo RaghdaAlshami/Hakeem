@@ -74,7 +74,7 @@ const Appointment = () => {
      ? parseInt(docInfo.workingHours.end.split(":")[0])
      : 21;
 
-   for (let i = 0; i < 7; i++) {
+   for (let i = 0; i < 14; i++) {
      let currentDate = new Date(today);
      currentDate.setDate(today.getDate() + i);
 
