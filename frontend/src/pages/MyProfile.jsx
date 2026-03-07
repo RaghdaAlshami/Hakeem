@@ -29,10 +29,17 @@ const MyProfile = () => {
     "درعا",
     "السويداء",
   ];
+
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
   const updateUserProfileData = async () => {
     try {
+      if (userData.phone.length !== 10) {
+        return toast.error(
+          "يجب أن يتكون رقم الهاتف من 10 أرقام تماماً (مثال: 09xxxxxxxx)",
+        );
+      }
+
       if (
         passwords.newPassword &&
         passwords.newPassword !== passwords.confirmPassword
@@ -52,8 +59,7 @@ const MyProfile = () => {
         formData.append("currentPassword", passwords.currentPassword);
       if (passwords.newPassword)
         formData.append("newPassword", passwords.newPassword);
-
-      image && formData.append("image", image);
+      if (image) formData.append("image", image);
 
       const { data } = await axios.post(
         backendUrl + "/api/user/update-profile",
@@ -78,12 +84,12 @@ const MyProfile = () => {
       toast.error(error.message);
     }
   };
-
+  console.log("Current User Data:", userData);
   return (
     userData && (
       <div
         dir="rtl"
-        className="min-h-screen bg-slate-50/50 py-12 px-4 font-cairo">
+        className="min-h-screen bg-slate-50/50 py-12 px-4 font-cairo text-right">
         <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="bg-slate-100 h-24 relative">
             <div className="absolute -bottom-10 right-8">
@@ -94,10 +100,14 @@ const MyProfile = () => {
                   <img
                     className="w-24 h-24 rounded-xl object-cover border-4 border-white shadow-md group-hover:brightness-90 transition-all"
                     src={image ? URL.createObjectURL(image) : userData.image}
-                    alt=""
+                    alt="profile"
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <img className="w-8" src={assets.upload_icon} alt="" />
+                    <img
+                      className="w-8"
+                      src={assets.upload_icon}
+                      alt="upload"
+                    />
                   </div>
                   <input
                     onChange={(e) => setImage(e.target.files[0])}
@@ -110,7 +120,7 @@ const MyProfile = () => {
                 <img
                   className="w-24 h-24 rounded-xl object-cover border-4 border-white shadow-md"
                   src={userData.image}
-                  alt=""
+                  alt="profile"
                 />
               )}
             </div>
@@ -141,76 +151,62 @@ const MyProfile = () => {
                   معلومات الاتصال
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      {" "}
-                      <p className="text-[11px] text-slate-400 font-bold whitespace-nowrap">
-                        رقم الهاتف:
-                      </p>
-                      {!isEdit && (
-                        <p
-                          className="text-xs font-medium text-slate-700 font-mono"
-                          dir="ltr">
-                          {userData.phone}
-                        </p>
-                      )}
-                    </div>
-                    {isEdit && (
+                  <div className="flex flex-col gap-1 items-start">
+                    <p className="text-[11px] text-slate-400 font-bold">
+                      رقم الهاتف:
+                    </p>
+                    {isEdit ? (
                       <input
-                        className="text-xs w-full bg-white p-1.5 rounded border border-slate-200 outline-none focus:border-teal-400"
+                        className="text-xs w-full bg-white p-1.5 rounded border border-slate-200 outline-none focus:border-teal-400 text-right font-mono"
                         type="tel"
+                        dir="ltr"
+                        maxLength="10"
+                        placeholder="09xxxxxxxx"
                         value={userData.phone}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
                           setUserData((prev) => ({
                             ...prev,
-                            phone: e.target.value,
-                          }))
-                        }
+                            phone: val,
+                          }));
+                        }}
                       />
+                    ) : (
+                      <p className="text-xs font-medium text-slate-700 font-mono w-full text-right">
+                        {userData.phone}
+                      </p>
                     )}
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="flex flex-col gap-1 items-start">
                     <p className="text-[11px] text-slate-400 font-bold">
-                      العنوان
+                      العنوان:
                     </p>
                     {isEdit ? (
-                      <div className="flex gap-2">
-                        <input
-                          className="text-xs w-full bg-white p-1.5 rounded border border-slate-200 outline-none"
-                          value={userData.address.line1}
-                          onChange={(e) =>
-                            setUserData((prev) => ({
-                              ...prev,
-                              address: {
-                                ...prev.address,
-                                line1: e.target.value,
-                              },
-                            }))
-                          }
-                        />
-                        <select
-                          className="text-[11px] bg-white border border-slate-200 rounded px-1 outline-none"
-                          value={userData.address.city}
-                          onChange={(e) =>
-                            setUserData((prev) => ({
-                              ...prev,
-                              address: {
-                                ...prev.address,
-                                city: e.target.value,
-                              },
-                            }))
-                          }>
-                          {syrianCities.map((c) => (
-                            <option key={c} value={c}>
-                              {c}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <select
+                        className="text-xs w-full bg-white p-1.5 rounded border border-slate-200 outline-none focus:border-teal-400 cursor-pointer"
+                        value={userData.address.city}
+                        onChange={(e) =>
+                          setUserData((prev) => ({
+                            ...prev,
+                            address: {
+                              city: e.target.value,
+                              line1: e.target.value,
+                            },
+                          }))
+                        }>
+                        <option value="" disabled>
+                          اختر المدينة
+                        </option>
+                        {syrianCities.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
                     ) : (
                       <p className="text-xs font-medium text-slate-700">
-                        {userData.address.line1}، {userData.address.city}
+                        {userData.address.city}
                       </p>
                     )}
                   </div>
@@ -222,7 +218,7 @@ const MyProfile = () => {
                   المعلومات الأساسية
                 </h3>
                 <div className="grid grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div>
+                  <div className="flex flex-col items-start">
                     <p className="text-[11px] text-slate-400 font-bold mb-1">
                       زمرة الدم
                     </p>
@@ -248,7 +244,8 @@ const MyProfile = () => {
                       </span>
                     )}
                   </div>
-                  <div>
+
+                  <div className="flex flex-col items-start">
                     <p className="text-[11px] text-slate-400 font-bold mb-1">
                       الجنس
                     </p>
@@ -262,7 +259,7 @@ const MyProfile = () => {
                             gender: e.target.value,
                           }))
                         }>
-                        <option value="ذكر">ذكر</option>{" "}
+                        <option value="ذكر">ذكر</option>
                         <option value="أنثى">أنثى</option>
                       </select>
                     ) : (
@@ -271,7 +268,8 @@ const MyProfile = () => {
                       </p>
                     )}
                   </div>
-                  <div>
+
+                  <div className="flex flex-col items-start">
                     <p className="text-[11px] text-slate-400 font-bold mb-1">
                       تاريخ الميلاد
                     </p>
@@ -303,7 +301,7 @@ const MyProfile = () => {
                   </h3>
                   <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-100 space-y-3">
                     <input
-                      className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none focus:ring-1 ring-amber-300"
+                      className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none focus:ring-1 ring-amber-300 text-right"
                       type="password"
                       placeholder="كلمة المرور الحالية"
                       value={passwords.currentPassword}
@@ -316,9 +314,9 @@ const MyProfile = () => {
                     />
                     <div className="grid grid-cols-2 gap-3">
                       <input
-                        className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none"
+                        className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none text-right"
                         type="password"
-                        placeholder="كلمة المرور الجديدة"
+                        placeholder="جديدة"
                         value={passwords.newPassword}
                         onChange={(e) =>
                           setPasswords({
@@ -328,7 +326,7 @@ const MyProfile = () => {
                         }
                       />
                       <input
-                        className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none"
+                        className="text-xs w-full bg-white p-2 rounded border border-amber-200 outline-none text-right"
                         type="password"
                         placeholder="تأكيد"
                         value={passwords.confirmPassword}
@@ -355,7 +353,7 @@ const MyProfile = () => {
                   </button>
                   <button
                     onClick={updateUserProfileData}
-                    className="text-xs px-6 py-2 rounded-lg bg-teal-600 text-white shadow-md shadow-teal-100 hover:bg-teal-700 active:scale-95 transition-all font-bold">
+                    className="text-xs px-6 py-2 rounded-lg bg-teal-600 text-white shadow-md hover:bg-teal-700 active:scale-95 transition-all font-bold">
                     حفظ الملف
                   </button>
                 </>

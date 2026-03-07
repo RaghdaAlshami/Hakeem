@@ -3,12 +3,29 @@ import { useParams } from "react-router-dom";
 import { DoctorContext } from "../context/DoctorContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { assets } from "../assets/assets"; 
+
 
 const PatientProfile = () => {
   const { userId } = useParams();
   const { dToken, backendUrl } = useContext(DoctorContext);
   const [userData, setUserData] = useState(null);
+
+  const calculateAge = (dob) => {
+    if (!dob || dob === "Not Selected") return "غير محدد";
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+
+    return `${age} سنة`;
+  };
 
   const fetchPatientData = async () => {
     try {
@@ -40,8 +57,7 @@ const PatientProfile = () => {
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-
-        <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-gray-50">
+        <div className="bg-gradient-to-r from-teal-600/5 to-transparent p-6 border-b border-gray-50">
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <img
               className="w-32 h-32 rounded-full border-4 border-white shadow-md object-cover bg-white"
@@ -53,16 +69,14 @@ const PatientProfile = () => {
                 {userData.name}
               </h1>
               <p className="text-gray-500 mt-1">{userData.email}</p>
-            
             </div>
           </div>
         </div>
 
-     
         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-     
+      
           <div>
-            <h3 className="text-lg font-semibold text-primary mb-2 border-b border-gray-200 pb-2">
+            <h3 className="text-lg font-semibold text-teal-700 mb-2 border-b border-gray-200 pb-2">
               المعلومات الشخصية
             </h3>
             <div className="space-y-4">
@@ -78,24 +92,25 @@ const PatientProfile = () => {
                   {userData.gender}
                 </span>
               </div>
+
               <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                <span className="text-gray-500">تاريخ الميلاد:</span>
+                <span className="text-gray-500">العمر:</span>
                 <span className="font-medium text-gray-700">
-                  {userData.dob}
+                  {calculateAge(userData.dob)}
                 </span>
               </div>
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-primary mb-2 border-b border-gray-200 pb-2">
+            <h3 className="text-lg font-semibold text-teal-700 mb-2 border-b border-gray-200 pb-2">
               البيانات الطبية والسكن
             </h3>
             <div className="space-y-2">
               <div className="flex justify-between items-center bg-red-50 p-3 rounded-lg">
                 <span className="text-red-600 font-medium">فصيلة الدم:</span>
                 <span className="font-bold text-red-700">
-                  {userData.bloodGroup}
+                  {userData.bloodGroup || "غير محدد"}
                 </span>
               </div>
               <div className="bg-gray-50 p-3 rounded-lg">
@@ -121,7 +136,9 @@ const PatientProfile = () => {
     </div>
   ) : (
     <div className="flex justify-center items-center h-64">
-      <p className="text-gray-500 animate-pulse">جاري تحميل ملف المريض...</p>
+      <p className="text-gray-500 animate-pulse font-['Cairo']">
+        جاري تحميل ملف المريض...
+      </p>
     </div>
   );
 };

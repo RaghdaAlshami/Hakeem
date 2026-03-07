@@ -54,7 +54,7 @@ export const assets = {
   bg_icon,
 };
 
-// البيانات المستخدمة في عرض التخصصات (الصفحة الرئيسية)
+
 export const specialityData = [
   {
     speciality: "طبيب عام",
@@ -72,7 +72,7 @@ export const specialityData = [
   },
 ];
 
-// القاموس الموحد للترجمة في جميع أنحاء التطبيق
+
 export const specialityTranslation = {
   "General Physician": "طبيب عام",
   //"General physician": "طبيب عام",

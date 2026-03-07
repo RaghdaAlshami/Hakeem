@@ -10,18 +10,16 @@ const changeAvailability = async (req, res) => {
   try {
     const { docId } = req.body;
 
- 
     const docData = await doctorModel.findById(docId);
 
     if (!docData) {
       return res.json({ success: false, message: "الطبيب غير موجود" });
     }
 
-    
     const updatedDoctor = await doctorModel.findByIdAndUpdate(
       docId,
       { available: !docData.available },
-      { new: true }, 
+      { new: true },
     );
 
     res.json({
@@ -102,11 +100,9 @@ const appointmentComplete = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
-    
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (appointmentData && appointmentData.docId === docId) {
-     
       await appointmentModel.findByIdAndUpdate(appointmentId, {
         isCompleted: true,
       });
@@ -129,16 +125,13 @@ const appointmentCancel = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
-   
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (appointmentData && appointmentData.docId === docId) {
-  
       await appointmentModel.findByIdAndUpdate(appointmentId, {
         cancelled: true,
       });
 
-      
       const { slotDate, slotTime } = appointmentData;
       const doctorData = await doctorModel.findById(docId);
 
@@ -167,29 +160,25 @@ const doctorDashboard = async (req, res) => {
   try {
     const { docId } = req.body;
 
-   
     const appointments = await appointmentModel.find({ docId });
 
     let earnings = 0;
     let patients = [];
 
     appointments.map((item) => {
-    
       if (item.isCompleted) {
         earnings += item.amount;
       }
 
-    
       if (!patients.includes(item.userId)) {
         patients.push(item.userId);
       }
     });
 
-   
     const dashData = {
-      earnings, 
-      appointments: appointments.length, 
-      patients: patients.length, 
+      earnings,
+      appointments: appointments.length,
+      patients: patients.length,
       latestAppointments: appointments.reverse().slice(0, 7),
       graphData: appointments.map((app) => ({ slotDate: app.slotDate })),
     };
@@ -207,7 +196,6 @@ const doctorDashboard = async (req, res) => {
 //API to get doctor profile for Doctor Panel
 const doctorProfile = async (req, res) => {
   try {
-    
     const { docId } = req.body;
 
     const docData = await doctorModel.findById(docId).select("-password");
@@ -252,7 +240,6 @@ const updateDoctorProfile = async (req, res) => {
       });
     }
 
-  
     const updateData = {
       name,
       fees,
@@ -260,8 +247,8 @@ const updateDoctorProfile = async (req, res) => {
       experience,
       available,
       address: address ? JSON.parse(address) : doc.address,
-      workingDays: workingDays ? JSON.parse(workingDays) : doc.workingDays, 
-      workingHours: workingHours ? JSON.parse(workingHours) : doc.workingHours, 
+      workingDays: workingDays ? JSON.parse(workingDays) : doc.workingDays,
+      workingHours: workingHours ? JSON.parse(workingHours) : doc.workingHours,
     };
 
     if (imageFile) {

@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import { assets } from "../../assets/assets";
 
 const UsersList = () => {
   const { aToken, users, getAllUsers, deleteUser } = useContext(AdminContext);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (aToken) {
@@ -11,13 +13,24 @@ const UsersList = () => {
     }
   }, [aToken]);
 
+  const filteredUsers = useMemo(() => {
+    if (!users) return [];
+    return users.filter((user) => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        user.name?.toLowerCase().includes(searchLower) ||
+        user.email?.toLowerCase().includes(searchLower) ||
+        user.phone?.includes(searchTerm)
+      );
+    });
+  }, [users, searchTerm]);
+
   const handleDelete = (id, name) => {
     if (window.confirm(`هل أنت متأكد من حذف حساب المستخدم ${name}؟`)) {
       deleteUser(id);
     }
   };
 
-  
   const formatDate = (dateString) => {
     if (!dateString) return "غير متوفر";
     const date = new Date(dateString);
@@ -30,13 +43,29 @@ const UsersList = () => {
 
   return (
     <div className="m-5 font-['Cairo'] text-right" dir="rtl">
-      <h1 className="text-xl font-bold text-gray-700 mb-6 border-r-4 border-primary pr-3">
-      قائمة كافة المستخدمين ({users ? users.length : 0})
-      </h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <h1 className="text-xl font-bold text-gray-700 border-r-4 border-primary pr-3">
+          قائمة كافة المستخدمين ({filteredUsers.length})
+        </h1>
+
+        <div className="relative w-full md:w-96">
+          <input
+            type="text"
+            placeholder="ابحث بالاسم، البريد، أو الهاتف..."
+            className="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm transition-all shadow-sm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <img
+            className="w-4 absolute right-3 top-3 opacity-40"
+            src={assets.search_icon}
+            alt="بحث"
+          />
+        </div>
+      </div>
 
       <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
-      
-        <div className="hidden sm:grid grid-cols-[0.5fr_2fr_2fr_1.5fr_1.5fr_0.5fr] items-center py-4 px-6 bg-gray-100 border-b border-gray-100 font-semibold text-gray-600 text-sm">
+        <div className="hidden sm:grid grid-cols-[0.5fr_2fr_2fr_1.5fr_1.5fr_0.5fr] items-center py-4 px-6 bg-gray-50 border-b border-gray-100 font-semibold text-gray-600 text-sm">
           <p>#</p>
           <p>الاسم</p>
           <p>البريد الإلكتروني</p>
@@ -45,13 +74,15 @@ const UsersList = () => {
           <p className="text-center">الإجراء</p>
         </div>
 
-        <div className="max-h-[70vh] overflow-y-auto">
-          {users && users.length > 0 ? (
-            users.map((item, index) => (
+        <div className="max-h-[70vh] overflow-y-auto no-scrollbar">
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((item, index) => (
               <div
                 key={item._id || index}
                 className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_2fr_1.5fr_1.5fr_0.5fr] items-center py-4 px-6 border-b border-gray-100 hover:bg-gray-50 transition-all text-sm text-gray-600">
-                <p className="hidden sm:block">{index + 1}</p>
+                <p className="hidden sm:block font-medium text-gray-400">
+                  {index + 1}
+                </p>
 
                 <div className="flex items-center gap-3">
                   <img
@@ -62,12 +93,13 @@ const UsersList = () => {
                   <p className="font-bold text-gray-800">{item.name}</p>
                 </div>
 
-                <p className="truncate ml-2">{item.email}</p>
+                <p className="truncate ml-2 text-gray-500 font-english">
+                  {item.email}
+                </p>
 
-                <p>{item.phone || "غير محدد"}</p>
+                <p className="font-medium text-gray-700">{item.phone || "—"}</p>
 
-              
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-400">
                   {item.createdAt
                     ? formatDate(item.createdAt)
                     : formatDate(item.date)}
@@ -76,10 +108,10 @@ const UsersList = () => {
                 <div className="text-center">
                   <button
                     onClick={() => handleDelete(item._id, item.name)}
-                    className="w-10 cursor-pointer p-1 hover:bg-red-50 rounded-full transition-all"
+                    className="inline-block cursor-pointer p-2 hover:bg-red-50 rounded-full transition-all group"
                     title="حذف المستخدم">
                     <img
-                      className="w-8 cursor-pointer p-1"
+                      className="w-6 opacity-70 group-hover:opacity-100"
                       src={assets.cancel_icon}
                       alt="حذف"
                     />
@@ -88,8 +120,8 @@ const UsersList = () => {
               </div>
             ))
           ) : (
-            <div className="p-10 text-center text-gray-400 italic">
-              جاري تحميل بيانات المرضى...
+            <div className="p-20 text-center text-gray-400">
+              {users ? "لا توجد نتائج تطابق بحثك..." : "جاري تحميل البيانات..."}
             </div>
           )}
         </div>

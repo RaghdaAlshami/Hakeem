@@ -11,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const navigate = useNavigate();
   const { backendUrl, token, setToken } = useContext(AppContext);
@@ -31,10 +32,15 @@ const Login = () => {
           toast.error(data.message);
         }
       } else {
+        if (phone.length !== 10) {
+          return toast.error("يجب أن يتكون رقم الهاتف من 10 أرقام");
+        }
+
         const { data } = await axios.post(backendUrl + "/api/user/register", {
           name,
-          password,
           email,
+          password,
+          phone,
         });
         if (data.success) {
           localStorage.setItem("token", data.token);
@@ -77,15 +83,29 @@ const Login = () => {
 
           <div className="space-y-4 transition-all duration-500 ease-in-out">
             {state === "Sign Up" && (
-              <input
-                className="w-full bg-white/10 border border-white/20 rounded-full p-3 text-white placeholder:text-white/50 focus:bg-white/20 transition-all outline-none"
-                type="text"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                placeholder="الاسم الكامل"
-                required
-              />
+              <>
+                <input
+                  className="w-full bg-white/10 border border-white/20 rounded-full p-3 text-white placeholder:text-white/50 focus:bg-white/20 transition-all outline-none"
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                  placeholder="الاسم الكامل"
+                  required
+                />
+
+                <input
+                  className="w-full bg-white/10 border border-white/20 rounded-full p-3 text-white placeholder:text-white/50 focus:bg-white/20 transition-all outline-none text-right"
+                  type="tel"
+                  dir="ltr"
+                  maxLength="10"
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                  value={phone}
+                  placeholder="رقم الهاتف (09xxxxxxxx)"
+                  required
+                />
+              </>
             )}
+
             <input
               className="w-full bg-white/10 border border-white/20 rounded-full p-3 text-white placeholder:text-white/50 focus:bg-white/20 transition-all outline-none"
               type="email"

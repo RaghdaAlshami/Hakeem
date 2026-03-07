@@ -5,8 +5,7 @@ import { assets } from "../assets/assets";
 import RelatedDoctors from "../components/RelatedDoctors";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { specialityTranslation } from "../assets/assets"; 
-
+import { specialityTranslation } from "../assets/assets";
 
 const Appointment = () => {
   const { docId } = useParams();
@@ -47,96 +46,88 @@ const Appointment = () => {
     setDocInfo(foundDoc);
   };
 
-
   const formatTimeArabic = (timeStr) => {
     if (!timeStr) return "";
 
-   
     const [time, period] = timeStr.split(" ");
 
-   
     const periodAr = period === "AM" ? "صباحاً" : "مساءً";
 
-  
     return `${time} ${periodAr}`;
   };
 
- const getAvailableSlots = async () => {
-   setDocSlots([]);
-   let today = new Date();
-   let allSlots = [];
+  const getAvailableSlots = async () => {
+    setDocSlots([]);
+    let today = new Date();
+    let allSlots = [];
 
-   const workingDaysAr = docInfo.workingDays || []; 
-   const startHour = docInfo.workingHours?.start
-     ? parseInt(docInfo.workingHours.start.split(":")[0])
-     : 10;
-   const endHour = docInfo.workingHours?.end
-     ? parseInt(docInfo.workingHours.end.split(":")[0])
-     : 21;
+    const workingDaysAr = docInfo.workingDays || [];
+    const startHour = docInfo.workingHours?.start
+      ? parseInt(docInfo.workingHours.start.split(":")[0])
+      : 10;
+    const endHour = docInfo.workingHours?.end
+      ? parseInt(docInfo.workingHours.end.split(":")[0])
+      : 21;
 
-   for (let i = 0; i < 14; i++) {
-     let currentDate = new Date(today);
-     currentDate.setDate(today.getDate() + i);
+    for (let i = 0; i < 14; i++) {
+      let currentDate = new Date(today);
+      currentDate.setDate(today.getDate() + i);
 
-   
-     const dayNameAr = daysOfWeek[currentDate.getDay()];
-     if (workingDaysAr.length > 0 && !workingDaysAr.includes(dayNameAr)) {
-       continue; 
-     }
+      const dayNameAr = daysOfWeek[currentDate.getDay()];
+      if (workingDaysAr.length > 0 && !workingDaysAr.includes(dayNameAr)) {
+        continue;
+      }
 
-     let endTime = new Date(currentDate);
-     endTime.setHours(endHour, 0, 0, 0);
+      let endTime = new Date(currentDate);
+      endTime.setHours(endHour, 0, 0, 0);
 
-  
-     if (today.getDate() === currentDate.getDate()) {
-   
-       const currentHour = currentDate.getHours();
-       currentDate.setHours(
-         currentHour >= startHour ? currentHour + 1 : startHour,
-       );
-       currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
-     } else {
-    
-       currentDate.setHours(startHour);
-       currentDate.setMinutes(0);
-     }
+      if (today.getDate() === currentDate.getDate()) {
+        const currentHour = currentDate.getHours();
+        currentDate.setHours(
+          currentHour >= startHour ? currentHour + 1 : startHour,
+        );
+        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
+      } else {
+        currentDate.setHours(startHour);
+        currentDate.setMinutes(0);
+      }
 
-     let timeSlots = [];
-     while (currentDate < endTime) {
-       let formattedTime = currentDate.toLocaleTimeString("en-US", {
-         hour: "2-digit",
-         minute: "2-digit",
-         hour12: true,
-       });
+      let timeSlots = [];
+      while (currentDate < endTime) {
+        let formattedTime = currentDate.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
 
-       let day = currentDate.getDate();
-       let month = currentDate.getMonth() + 1;
-       let year = currentDate.getFullYear();
-       let slotDate = day + "_" + month + "_" + year;
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
+        let slotDate = day + "_" + month + "_" + year;
 
-       const isSlotAvailable =
-         docInfo.slots_booked &&
-         docInfo.slots_booked[slotDate] &&
-         docInfo.slots_booked[slotDate].includes(formattedTime)
-           ? false
-           : true;
+        const isSlotAvailable =
+          docInfo.slots_booked &&
+          docInfo.slots_booked[slotDate] &&
+          docInfo.slots_booked[slotDate].includes(formattedTime)
+            ? false
+            : true;
 
-       if (isSlotAvailable) {
-         timeSlots.push({
-           datetime: new Date(currentDate),
-           time: formattedTime,
-           slotDate: slotDate,
-         });
-       }
-       currentDate.setMinutes(currentDate.getMinutes() + 30);
-     }
+        if (isSlotAvailable) {
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime,
+            slotDate: slotDate,
+          });
+        }
+        currentDate.setMinutes(currentDate.getMinutes() + 30);
+      }
 
-     if (timeSlots.length > 0) {
-       allSlots.push(timeSlots);
-     }
-   }
-   setDocSlots(allSlots);
- };
+      if (timeSlots.length > 0) {
+        allSlots.push(timeSlots);
+      }
+    }
+    setDocSlots(allSlots);
+  };
 
   const bookAppointment = async () => {
     if (!token) {
@@ -186,7 +177,6 @@ const Appointment = () => {
 
   return (
     <div dir="rtl" className="p-5 md:mx-10">
-
       <div className="flex flex-col md:flex-row gap-6 lg:gap-12">
         <div className="bg-hakeem-dark w-full md:max-w-72 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
           <img
@@ -208,7 +198,6 @@ const Appointment = () => {
             </div>
           </div>
 
-     
           <div className="flex items-center gap-3 mt-2">
             <div className="flex text-yellow-400 text-lg">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -275,7 +264,6 @@ const Appointment = () => {
         </div>
       </div>
 
-    
       <div className="mt-10 md:mr-4 font-medium text-gray-700">
         {docInfo.available ? (
           <>
@@ -311,10 +299,9 @@ const Appointment = () => {
                 docSlots[slotIndex].map((item, index) => (
                   <button
                     key={index}
-                    onClick={() => setSlotTime(item.time)} 
+                    onClick={() => setSlotTime(item.time)}
                     className={`text-sm shrink-0 px-8 py-3 rounded-full cursor-pointer transition-all border
         ${item.time === slotTime ? "bg-hakeem-dark text-white border-hakeem-dark shadow-md" : "text-gray-500 border-gray-200 hover:border-hakeem-dark"}`}>
-                   
                     {formatTimeArabic(item.time)}
                   </button>
                 ))}
@@ -343,6 +330,6 @@ const Appointment = () => {
       </div>
     </div>
   );
-};;
+};
 
 export default Appointment;

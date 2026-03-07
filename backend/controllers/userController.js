@@ -10,16 +10,24 @@ import { OAuth2Client } from "google-auth-library";
 // API to register user
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
-    if (!name || !password || !email) {
+    if (!name || !password || !email || !phone) {
       return res.json({
         success: false,
-        message: "يرجى إدخال جميع البيانات",
+        message: "يرجى إدخال جميع البيانات بما في ذلك رقم الهاتف",
       });
     }
+
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: "يرجى إدخال إيميل صحيح" });
+    }
+
+    if (phone.length !== 10) {
+      return res.json({
+        success: false,
+        message: "رقم الهاتف يجب أن يكون 10 أرقام",
+      });
     }
 
     if (password.length < 8) {
@@ -36,12 +44,12 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      phone,
     };
 
     const newUser = new userModel(userData);
     const user = await newUser.save();
 
-    // 6. إنشاء توكن (Token) للمستخدم
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.json({ success: true, token });
@@ -135,7 +143,6 @@ const updateProfile = async (req, res) => {
     let hashedPassword = user.password;
 
     if (newPassword) {
-    
       if (!currentPassword) {
         return res.json({
           success: false,
@@ -161,7 +168,6 @@ const updateProfile = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(newPassword, salt);
     }
-
 
     const updateData = {
       name,
@@ -194,14 +200,12 @@ const bookAppointment = async (req, res) => {
   try {
     const { userId, docId, slotDate, slotTime } = req.body;
 
-
     const docData = await doctorModel.findById(docId).select("-password");
 
     if (!docData.available) {
       return res.json({ success: false, message: "الطبيب غير متاح حالياً" });
     }
 
-   
     let slots_booked = docData.slots_booked;
 
     if (slots_booked[slotDate]) {
@@ -215,10 +219,8 @@ const bookAppointment = async (req, res) => {
       slots_booked[slotDate].push(slotTime);
     }
 
-   
     const userData = await userModel.findById(userId).select("-password");
 
-   
     delete docData.slots_booked;
 
     const appointmentData = {
@@ -235,7 +237,6 @@ const bookAppointment = async (req, res) => {
     const newAppointment = new appointmentModel(appointmentData);
     await newAppointment.save();
 
-    
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
     res.json({ success: true, message: "تم حجز الموعد بنجاح" });
@@ -250,7 +251,6 @@ const listAppointment = async (req, res) => {
   try {
     const { userId } = req.body;
 
-   
     const appointments = await appointmentModel
       .find({ userId })
       .sort({ date: -1 });
@@ -275,7 +275,6 @@ const cancelAppointment = async (req, res) => {
         message: "غير مسموح لك بإجراء هذا الإجراء أو الموعد غير موجود",
       });
     }
-
 
     if (appointmentData.cancelled) {
       return res.json({ success: false, message: "هذا الموعد ملغى بالفعل" });
@@ -316,7 +315,6 @@ const rateAppointment = async (req, res) => {
   try {
     const { userId, appointmentId, rating } = req.body;
 
-  
     if (rating < 1 || rating > 5) {
       return res.json({
         success: false,
@@ -324,7 +322,6 @@ const rateAppointment = async (req, res) => {
       });
     }
 
-  
     const appointmentData = await appointmentModel.findById(appointmentId);
 
     if (!appointmentData || appointmentData.userId !== userId) {
@@ -353,17 +350,14 @@ const rateAppointment = async (req, res) => {
 
     let { rating: oldRating, numReviews } = doctorData;
 
-    
     const newNumReviews = numReviews + 1;
     const newRating = (oldRating * numReviews + rating) / newNumReviews;
 
-
     await doctorModel.findByIdAndUpdate(docId, {
-      rating: newRating.toFixed(1), 
+      rating: newRating.toFixed(1),
       numReviews: newNumReviews,
     });
 
-    
     await appointmentModel.findByIdAndUpdate(appointmentId, {
       isRated: true,
       rating: rating,
@@ -380,9 +374,8 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleAuth = async (req, res) => {
   try {
-    const { token } = req.body; 
+    const { token } = req.body;
 
-   
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -393,14 +386,13 @@ const googleAuth = async (req, res) => {
     let user = await userModel.findOne({ email });
 
     if (!user) {
-   
       user = await userModel.create({
         name,
         email,
         image: picture,
-       
+
         password: await bcrypt.hash(sub + process.env.JWT_SECRET, 10),
-        address: { line1: "", city: "دمشق" }, 
+        address: { line1: "", city: "دمشق" },
         dob: "0001-01-01",
       });
     }
